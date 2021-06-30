@@ -1,9 +1,15 @@
 package main
-import "fmt"
+import (
+	"fmt"
+	"os" //ejecutar comandos terminal
+	"strconv" //convertidor de variables
+)
 
 func main()  {
 	fmt.Println("<!----------- Mi programa en GO -------->")
-	edad := 25
+	fmt.Println("Primer parametro " + os.Args[1])
+
+	edad,_ := strconv.Atoi(os.Args[2])
 
 	if edad >= 18 && edad <= 99  {
 		fmt.Println("Eres Mayor de edad")
