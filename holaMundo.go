@@ -12,6 +12,11 @@ type Gorra struct {
 	plana bool
 }
 
+type Orden struct {
+	texto string
+	cantidad int
+}
+
 func main() {
 
 	var gorra1 = Gorra {
@@ -30,6 +35,7 @@ func main() {
 	holaMundo(gorra1, gorra2)
 
 	println(tiempoVencer())
+	println(pedidos(24))
 }
 
 func holaMundo(gorra1 Gorra, gorra2 Gorra){
@@ -56,3 +62,13 @@ func tiempoVencer() (string, int) { //Definimos el parametro que retornara
 	return dato1, dato2
 
 }
+
+func pedidos(cantidad int)(string, int)  {
+	precio := func() int{
+		return cantidad*7
+	}
+	return "El precio de su pedido es : ", precio()
+
+
+}
+
