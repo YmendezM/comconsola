@@ -36,6 +36,7 @@ func main() {
 
 	println(tiempoVencer())
 	println(pedidos(24))
+	recorrerPropiedades("Adidas","negra")
 }
 
 func holaMundo(gorra1 Gorra, gorra2 Gorra){
@@ -68,7 +69,13 @@ func pedidos(cantidad int)(string, int)  {
 		return cantidad*7
 	}
 	return "El precio de su pedido es : ", precio()
-
-
 }
+
+func recorrerPropiedades(caracteristicas ...string){
+	for _, caracteristica := range caracteristicas{
+		fmt.Println(caracteristica)
+	}
+}
+
+
 
