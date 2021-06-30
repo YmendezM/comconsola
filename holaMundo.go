@@ -26,8 +26,10 @@ func main() {
 		100,
 		true,
 	}
-	
+
 	holaMundo(gorra1, gorra2)
+
+	println(tiempoVencer())
 }
 
 func holaMundo(gorra1 Gorra, gorra2 Gorra){
@@ -45,5 +47,12 @@ func holaMundo(gorra1 Gorra, gorra2 Gorra){
 	fmt.Println(valorInferido, numero) // concatena
 
 	fmt.Println(gorra2.marca)
+
+}
+
+func tiempoVencer() (string, int) { //Definimos el parametro que retornara
+	var dato1 string = "YSRAEL"
+	var dato2 int = 14
+	return dato1, dato2
 
 }
