@@ -6,7 +6,8 @@ import (
 )
 func main(){
 	var suma  int = 9 + 9
-	fmt.Println("Hola Mundo en GO");
+	var nombre string = "Ysrael Mendez"
+	fmt.Println("Hola Mundo en GO " + nombre)
 	time.Sleep(time.Second * 5) // Permite manejar tiempo
 	fmt.Println(suma)
 }
