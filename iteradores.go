@@ -4,7 +4,7 @@ import "fmt"
 
 func main()  {
 
-	array := []string{"n", "n", "n", ""}
+	array := []string{"n", "n", "n", "n"}
 	/*for i := 0; i<15; i++{
 		if i%2 == 0 {
 			fmt.Println(i, " <<!---- iteradores Par---->>")
@@ -14,10 +14,14 @@ func main()  {
 	}*/
 	for i := 0; i<len(array); i++{
 		if i%2 == 0 {
-			fmt.Println(i, " <<!---- iteradores Par---->>")
+			fmt.Println(i, " <<!---- iteradores "+ array[i] +" Par---->>")
 		}else{
-			fmt.Println(i, " <<!---- iteradores Impar ---->>")
+			fmt.Println(i, " <<!---- iteradores "+ array[i] +" Impar ---->>")
 		}
+	}
+
+	for _, arr :=  range array{
+		fmt.Println(arr)
 	}
 
 
