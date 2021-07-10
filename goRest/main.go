@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -35,7 +36,14 @@ func Contacto(w http.ResponseWriter, r *http.Request) {
 }
 
 func peliculasList(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Listado de peliculas")
+
+	listPaliculas := peliculas{
+		pelicula{"forrest gump", 1994, "Robert Zemeckis", "Tom Hanks"},
+		pelicula{"En busca de la felicidad", 2006, "Gabriele Muccino", "Will Smith"},
+		pelicula{"Mas alla de los sueños", 1998, "Vincent Ward", "Robin Williams"},
+	}
+	//fmt.Fprintf(w, "Listado de peliculas")
+	json.NewEncoder(w).Encode(listPaliculas)
 }
 
 func peliculasShow(w http.ResponseWriter, r *http.Request) {
