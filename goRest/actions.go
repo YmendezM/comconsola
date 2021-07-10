@@ -7,12 +7,23 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2"
+	//"gopkg.in/mgo.v2/bson"
 )
 
 var listPaliculas = peliculas{
 	pelicula{"forrest gump", 1994, "Robert Zemeckis", "Tom Hanks"},
 	pelicula{"En busca de la felicidad", 2006, "Gabriele Muccino", "Will Smith"},
 	pelicula{"Mas alla de los sueños", 1998, "Vincent Ward", "Robin Williams"},
+}
+
+func getSession() *mgo.Session {
+
+	session, err := mgo.Dial("mongodb://localhost")
+	if err != nil {
+		panic(err)
+	}
+	return session
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
