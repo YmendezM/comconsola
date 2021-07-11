@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -10,12 +11,12 @@ import (
 	//"gopkg.in/mgo.v2/bson"
 )
 
-var listPaliculas = peliculas{
+/*var listPaliculas = peliculas{
 	pelicula{"forrest gump", 1994, "Robert Zemeckis", "Tom Hanks"},
 	pelicula{"En busca de la felicidad", 2006, "Gabriele Muccino", "Will Smith"},
 	pelicula{"Mas alla de los sueños", 1998, "Vincent Ward", "Robin Williams"},
 	pelicula{"El lobo de Wall Street", 2013, "Martin Scorsese", "Leonardo DiCaprio"},
-}
+}*/
 
 var collection = getSession().DB("gorest").C("peliculas")
 
@@ -39,7 +40,21 @@ func Contacto(w http.ResponseWriter, r *http.Request) {
 func peliculasList(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Fprintf(w, "Listado de peliculas")
-	json.NewEncoder(w).Encode(listPaliculas)
+	//json.NewEncoder(w).Encode(listPaliculas)
+
+	var results []pelicula
+
+	err := collection.Find(nil).All(&results)
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println(results)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(results)
+
 }
 
 func peliculasShow(w http.ResponseWriter, r *http.Request) {
@@ -72,8 +87,8 @@ func peliculasAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//listPaliculas = append(listPaliculas, peliculasData)
-	json.NewEncoder(w).Encode(peliculasData)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(peliculasData)
 
 }
