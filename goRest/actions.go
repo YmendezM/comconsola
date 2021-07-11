@@ -8,7 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2"
-	//"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
 )
 
 /*var listPaliculas = peliculas{
@@ -33,11 +33,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hola Mundo server Go")
 }
 
-func Contacto(w http.ResponseWriter, r *http.Request) {
+func getContacto(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Ysrael Mendez Marciales.")
 }
 
-func peliculasList(w http.ResponseWriter, r *http.Request) {
+func getPeliculasList(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Fprintf(w, "Listado de peliculas")
 	//json.NewEncoder(w).Encode(listPaliculas)
@@ -57,14 +57,32 @@ func peliculasList(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func peliculasShow(w http.ResponseWriter, r *http.Request) {
+func getPeliculasShow(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 	pelicula_id := params["id"]
-	fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
+
+	if !bson.IsObjectIdHex(pelicula_id) {
+		w.WriteHeader(404)
+		return
+	}
+
+	oId := bson.ObjectIdHex(pelicula_id)
+	results := pelicula{}
+	err := collection.FindId(oId).One(&results)
+
+	if err != nil {
+		w.WriteHeader(404)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(results)
+	//fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
 }
 
-func peliculasAdd(w http.ResponseWriter, r *http.Request) {
+func setPeliculas(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 

@@ -31,8 +31,8 @@ func NewRoute() *mux.Router {
 
 var routes = Routes{
 	Route{"index", "GET", "/", Index},
-	Route{"contacto", "GET", "/contacto", Contacto},
-	Route{"peliculasList", "GET", "/peliculas", peliculasList},
-	Route{"peliculasShow", "GET", "/peliculas/{id}", peliculasShow},
-	Route{"peliculasAdd", "POST", "/peliculas", peliculasAdd},
+	Route{"contacto", "GET", "/contacto", getContacto},
+	Route{"peliculasList", "GET", "/peliculas", getPeliculasList},
+	Route{"peliculasShow", "GET", "/peliculas/{id}", getPeliculasShow},
+	Route{"peliculasAdd", "POST", "/peliculas", setPeliculas},
 }
