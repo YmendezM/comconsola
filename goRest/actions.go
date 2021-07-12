@@ -33,6 +33,18 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hola Mundo server Go")
 }
 
+func responsePalicula(w http.ResponseWriter, status int, results pelicula) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(results)
+}
+
+func responsePeliculas(w http.ResponseWriter, status int, results peliculas) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(results)
+}
+
 func getContacto(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Ysrael Mendez Marciales.")
 }
@@ -51,10 +63,8 @@ func getPeliculasList(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Println(results)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(results)
 
+	responsePeliculas(w, 200, results)
 }
 
 func getPeliculasShow(w http.ResponseWriter, r *http.Request) {
@@ -76,9 +86,7 @@ func getPeliculasShow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(results)
+	responsePalicula(w, 200, results)
 	//fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
 }
 
@@ -105,8 +113,6 @@ func setPeliculas(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//listPaliculas = append(listPaliculas, peliculasData)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(peliculasData)
+	responsePalicula(w, 200, peliculasData)
 
 }
