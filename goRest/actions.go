@@ -116,3 +116,42 @@ func setPeliculas(w http.ResponseWriter, r *http.Request) {
 	responsePalicula(w, 200, peliculasData)
 
 }
+
+func setPeliculaUpdate(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	pelicula_id := params["id"]
+
+
+	if !bson.IsObjectIdHex(pelicula_id) {
+		w.WriteHeader(404)
+		return
+	}
+
+	decoder := json.NewDecoder(r.Body)
+
+	oId := bson.ObjectIdHex(pelicula_id)
+
+	var pelicula pelicula
+	err := decoder.Decode(&pelicula)
+
+	if(err != nil){
+		panic(err)
+		w.WriteHeader(404)
+		return
+	}
+
+	defer r.Body.Close()
+
+	document := bson.M{"_id": oId}
+	change := bson.M{"$set": pelicula}
+	err = collection.Update(document, change)
+
+	if(err != nil){
+		panic(err)
+		w.WriteHeader(404)
+		return
+	}
+	responsePalicula(w, 200, pelicula)
+	//fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
+}
