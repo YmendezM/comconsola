@@ -155,9 +155,20 @@ func setPeliculaUpdate(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
 }
 
+//----- Estructuras de datos
 type Message struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
+}
+
+//----- Metodo para estructura
+
+func (this *Message) setStatus(data string) {
+	this.Status = data
+}
+
+func (this *Message) setMessage(data string) {
+	this.Message = data
 }
 
 func setPeliculaRemove(w http.ResponseWriter, r *http.Request) {
@@ -180,7 +191,11 @@ func setPeliculaRemove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	results := Message{"Success", "La pelicula con ID " + pelicula_id + "ha sido eliminada"}
+	//results := Message{"Success", "La pelicula con ID " + pelicula_id + "ha sido eliminada"}
+	message := new(Message)
+	message.setStatus("Success")
+	message.setMessage("La pelicula con ID " + pelicula_id + "ha sido eliminada")
+	results := message
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 	json.NewEncoder(w).Encode(results)
