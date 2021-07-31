@@ -122,7 +122,6 @@ func setPeliculaUpdate(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	pelicula_id := params["id"]
 
-
 	if !bson.IsObjectIdHex(pelicula_id) {
 		w.WriteHeader(404)
 		return
@@ -135,7 +134,7 @@ func setPeliculaUpdate(w http.ResponseWriter, r *http.Request) {
 	var pelicula pelicula
 	err := decoder.Decode(&pelicula)
 
-	if(err != nil){
+	if err != nil {
 		panic(err)
 		w.WriteHeader(404)
 		return
@@ -147,11 +146,43 @@ func setPeliculaUpdate(w http.ResponseWriter, r *http.Request) {
 	change := bson.M{"$set": pelicula}
 	err = collection.Update(document, change)
 
-	if(err != nil){
+	if err != nil {
 		panic(err)
 		w.WriteHeader(404)
 		return
 	}
 	responsePalicula(w, 200, pelicula)
 	//fmt.Fprintf(w, "Cargando pelicula numero %s", pelicula_id)
+}
+
+type Message struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
+func setPeliculaRemove(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	pelicula_id := params["id"]
+
+	if !bson.IsObjectIdHex(pelicula_id) {
+		w.WriteHeader(404)
+		return
+	}
+
+	oId := bson.ObjectIdHex(pelicula_id)
+
+	err := collection.RemoveId(oId)
+
+	if err != nil {
+		panic(err)
+		w.WriteHeader(404)
+		return
+	}
+
+	results := Message{"Success", "La pelicula con ID " + pelicula_id + "ha sido eliminada"}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(results)
+
 }
